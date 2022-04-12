@@ -1,0 +1,61 @@
+main {
+  width: 100vw;
+  /* height: 100vh; */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  place-items: center;
+}
+
+div {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px;
+}
+
+main div {
+  width: 200px;
+  height: 200px;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.pink {
+  background-color: pink;
+}
+
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+button {
+  width: 200px;
+  font-size: 1.5rem;
+  padding: .5em 1em;
+  color: white;
+  align-self: center;
+  background-color: cornflowerblue;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 2px 2px 15px 2px rgb(198, 198, 198);
+}
