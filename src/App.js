@@ -1,48 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 import React, { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 
-const SIZE = 12;
+const SIZE = 15;
 
 function App() {
-  // const [colors, setColors] = useState([
-  //   {
-  //     name: 'red',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'blue',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'green',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'yellow',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'pink',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'aqua',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'grey',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'black',
-  //     isSelected: false
-  //   },
-  //   {
-  //     name: 'orange',
-  //     isSelected: false
-  //   },
-  // ]);
   const [colours, setColours] = useState([]);
 
   useEffect(() => {
@@ -61,6 +24,7 @@ function App() {
   const [gameWon, setGameWon] = useState(false);
   const [colorBlindMode, setColorBlindMode] = useState(false);
   const [highscore, setHighscore] = useState(0);
+  const [showInstructions, setShowInstructions] = useState(true);
 
   const randomize = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -71,7 +35,7 @@ function App() {
   }
 
   const checkGameOver = (id) => {
-    return (selectedColors.includes(id))
+    return (selectedColors.includes(id));
   }
 
   const handleClick = (e) => {
@@ -82,7 +46,7 @@ function App() {
     
     setSelectedColors(prev => [...prev, e.target.id]);
     
-    setScore(prevScore => ++prevScore);
+    if(!gameOver) setScore(prevScore => ++prevScore);
   }
 
   useEffect(() => {
@@ -101,26 +65,46 @@ function App() {
     setColorBlindMode(prev => !prev);
   }
 
+  const handleLetsGoClick = () => {
+    setShowInstructions(false);
+  }
+
   const elems = (
     <div className='container'>
-      <button className='colorblindBtn' onClick={handleColorBlindBtnClick}>Colorblind mode: {colorBlindMode ? 'on' : 'off'}</button>
-      <h3>Highscore: {highscore}</h3>
+      {gameWon && <Confetti />}
+      <div className='header'>
+        <h3>Highscore: {highscore}</h3>
+        <button className='colorblindBtn' onClick={handleColorBlindBtnClick}>Colorblind mode: {colorBlindMode ? 'On' : 'Off'}</button>
+      </div>
+
       <h1>Score: {score}</h1>
       <main>
       {
         randomize(colours).map(color => {
-          return <div style={{backgroundColor: `${color.value}`}} id={color.value} key={color.value} onClick={handleClick}>{colorBlindMode && <p>{color.value}</p>}</div>
+          return(
+            <div className='colour' style={{backgroundColor: `${color.value}`}} id={color.value} key={color.value} onClick={handleClick}>{colorBlindMode && <p>{color.value}</p>}</div>
+          ) 
         })
       }
       </main>
+
       {gameOver && <h1>You Lose! Your score is {score}!</h1>}
       {gameWon && <h1>Contratulations! Your score is {score}!</h1>}
       {(gameOver || gameWon) && <button className='newGameBtn' onClick={handleNewGameClick}>New Game</button>}
     </div>
   );
 
+  const instructions = (
+    <div className="instructions">
+      <h1>Instructions</h1>
+      <p>Click on a colour to increase your score but you can't click on a colour twice! Let's test your memory!</p>
+      <button onClick={handleLetsGoClick}>Let's Go!</button>
+    </div>
+  );
+
   console.log(colours);
   return (
+    showInstructions ? instructions :
     colours.length > 0 ? elems : <h1 className='loading'>Loading...</h1>
   );
 }
