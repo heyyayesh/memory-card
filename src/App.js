@@ -23,7 +23,7 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [colorBlindMode, setColorBlindMode] = useState(false);
-  const [highscore, setHighscore] = useState(0);
+  const [highscore, setHighscore] = useState(localStorage.getItem('highscore') || 0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [hintShown, setHintShown] = useState(false);
 
@@ -54,6 +54,10 @@ function App() {
     if (score === SIZE) setGameWon(true);
     setHighscore(prev =>  score > prev ? score : prev);
   }, [score, colours]);
+
+  useEffect(() => {
+    localStorage.setItem('highscore', highscore);
+  }, [highscore]);
 
   const handleNewGameClick = () => {
     setGameOver(false);
