@@ -52,7 +52,7 @@ button:hover {
   box-shadow: 2px 2px 15px 2px rgb(198, 198, 198);
 }
 
-button.colorblindBtn {
+.colorblindBtn, .hint {
   font-size: 1rem;
   padding: .5em 1em;
   color: white;
@@ -79,6 +79,11 @@ button.colorblindBtn {
   justify-content: space-between;
   padding: 20px;
   align-items: center;
+  gap: 20px;
+}
+
+.header h3 {
+  flex: 1;
 }
 
 .instructions {
@@ -112,6 +117,16 @@ button.colorblindBtn {
   cursor: pointer;
 }
 
+.hinted {
+  animation: hintAnimation 100ms ease-in-out 3 alternate;
+}
+
+@keyframes hintAnimation {
+  50% {
+    background-color: white;
+  }
+}
+
 @media  screen and (max-width: 600px) {
   div.container {
     justify-content: center;
@@ -132,5 +147,24 @@ button.colorblindBtn {
 
   button.colorblindBtn {
     padding: .5em;
+  }
+
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+    gap: 10px;
+  }
+
+  .header h3 {
+    background-color: cornflowerblue;
+    padding: 6px;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .hint {
+    grid-column: 1 / -1;
   }
 }

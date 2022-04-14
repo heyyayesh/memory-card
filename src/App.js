@@ -25,6 +25,7 @@ function App() {
   const [colorBlindMode, setColorBlindMode] = useState(false);
   const [highscore, setHighscore] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
+  const [hintShown, setHintShown] = useState(false);
 
   const randomize = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -69,12 +70,20 @@ function App() {
     setShowInstructions(false);
   }
 
+  const handleHintClick = () => {
+    setHintShown(true);
+    setTimeout(() => {
+      setHintShown(false);
+    }, 500);
+  }
+
   const elems = (
     <div className='container'>
       {gameWon && <Confetti />}
       <div className='header'>
         <h3>Highscore: {highscore}</h3>
         <button className='colorblindBtn' onClick={handleColorBlindBtnClick}>Colorblind mode: {colorBlindMode ? 'On' : 'Off'}</button>
+        <button className='hint' onClick={handleHintClick}>Hint</button>
       </div>
 
       <h1>Score: {score}</h1>
@@ -82,8 +91,16 @@ function App() {
       {
         randomize(colours).map(color => {
           return(
-            <div className='colour' style={{backgroundColor: `${color.value}`}} id={color.value} key={color.value} onClick={handleClick}>{colorBlindMode && <p>{color.value}</p>}</div>
-          ) 
+            <div
+              style={{backgroundColor: `${color.value}`}}
+              id={color.value}
+              key={color.value}
+              onClick={handleClick}
+              className={hintShown && selectedColors.includes(color.value) ? 'hinted' : ''}
+            >
+              {colorBlindMode && <p>{color.value}</p>}
+            </div>
+          )
         })
       }
       </main>
@@ -102,7 +119,7 @@ function App() {
     </div>
   );
 
-  console.log(colours);
+  console.log(hintShown);
   return (
     showInstructions ? instructions :
     colours.length > 0 ? elems : <h1 className='loading'>Loading...</h1>
